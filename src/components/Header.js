@@ -32,6 +32,19 @@ const socials = [
   },
 ];
 
+const pageSection = [
+  {
+    id: 'projects',
+    url: '#projects',
+    title: 'Projects',
+  },
+  {
+    id: 'contactme',
+    url: '#contact-me',
+    title: 'Contact Me',
+  },
+];
+
 const Header = () => {
   const handleClick = (anchor) => () => {
     const id = `${anchor}-section`;
@@ -43,35 +56,6 @@ const Header = () => {
       });
     }
   };
-
-  // const socialItems = socials.map((item) => {
-  //   return (
-  //     <a href={item.url}>
-  //       <FontAwesomeIcon icon={item.icon} size='2x' />
-  //     </a>
-  //   );
-  // });
-
-  const internalItems = [
-    {
-      id: 'projects',
-      url: '#projects',
-      title: 'Projects',
-    },
-    {
-      id: 'contactme',
-      url: '#contact-me',
-      title: 'Contact Me',
-    },
-  ];
-
-  const internalLinks = internalItems.map((item) => {
-    return (
-      <a key={item.id} href={item.url} onClick={handleClick(item.id)}>
-        {item.title}
-      </a>
-    );
-  });
 
   return (
     <Box
@@ -95,14 +79,26 @@ const Header = () => {
           <nav>
             {socials.map((item, index) => {
               return (
-                <a href={item.url} key={index}>
+                <a href={item.url} key={index} className='inline-block mr-15'>
                   <FontAwesomeIcon icon={item.icon} size='2x' />
                 </a>
               );
             })}
           </nav>
           <nav>
-            <HStack spacing={8}>{internalLinks}</HStack>
+            <HStack spacing={8}>
+              {pageSection.map((item) => {
+                return (
+                  <a
+                    href={item.url}
+                    key={item.id}
+                    onClick={handleClick(item.id)}
+                  >
+                    {item.title}
+                  </a>
+                );
+              })}
+            </HStack>
           </nav>
         </HStack>
       </Box>
