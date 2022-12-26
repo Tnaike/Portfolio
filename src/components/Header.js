@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -46,6 +46,9 @@ const pageSection = [
 ];
 
 const Header = () => {
+  const [transform, setTransform] = useState(0);
+  const [position, setPosition] = useState('fixed');
+
   const handleClick = (anchor) => () => {
     const id = `${anchor}-section`;
     const element = document.getElementById(id);
@@ -57,13 +60,30 @@ const Header = () => {
     }
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 70) {
+        setTransform('-200px');
+        setPosition('fixed');
+      } else {
+        setTransform('0');
+        setPosition('static');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <Box
-      position='fixed'
+      position={position}
       top={0}
       left={0}
       right={0}
-      translateY={0}
+      translateY={transform}
       transitionProperty='transform'
       transitionDuration='.3s'
       transitionTimingFunction='ease-in-out'

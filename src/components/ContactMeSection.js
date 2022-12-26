@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import { useFormik } from "formik";
+import React, { useEffect } from 'react';
+import { useFormik } from 'formik';
 import {
   Box,
   Button,
@@ -11,14 +11,14 @@ import {
   Select,
   Textarea,
   VStack,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 import * as Yup from 'yup';
-import FullScreenSection from "./FullScreenSection";
-import useSubmit from "../hooks/useSubmit";
-import {useAlertContext} from "../context/alertContext";
+import FullScreenSection from './FullScreenSection';
+import useSubmit from '../hooks/useSubmit';
+import { useAlertContext } from '../context/alertContext';
 
 const LandingSection = () => {
-  const {isLoading, response, submit} = useSubmit();
+  const { isLoading, response, submit } = useSubmit();
   const { onOpen } = useAlertContext();
 
   const formik = useFormik({
@@ -26,21 +26,22 @@ const LandingSection = () => {
       firstName: '',
       email: '',
       type: 'hireMe',
-      comment: ''
+      comment: '',
     },
     onSubmit: (values) => {
-      useSubmit.submit("", values)
+      submit('', values);
     },
     validationSchema: Yup.object({
-      firstName: Yup.string().required("Required"),
-      email: Yup.string().required("Required").email("Invalid email address"),
-      comment: Yup.string().required("Required").min(25, "Must be at least 25 characters")
+      firstName: Yup.string().required('Required'),
+      email: Yup.string().required('Required').email('Invalid email'),
+      type: Yup.string().required('Required'),
+      comment: Yup.string().required('Required'),
     }),
   });
 
   useEffect(() => {
     onOpen(response?.type, response?.message);
-    if (response?.type === "success") {
+    if (response?.type === 'success') {
       formik.resetForm();
     }
   }, [response]);
@@ -48,7 +49,7 @@ const LandingSection = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     formik.onSubmit();
-  }
+  };
 
   return (
     <FullScreenSection
@@ -72,6 +73,7 @@ const LandingSection = () => {
                   type='text'
                   value={formik.values.firstName}
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                 />
                 <FormErrorMessage></FormErrorMessage>
               </FormControl>
@@ -83,6 +85,7 @@ const LandingSection = () => {
                   type='email'
                   value={formik.values.email}
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                 />
                 <FormErrorMessage></FormErrorMessage>
               </FormControl>
@@ -93,6 +96,7 @@ const LandingSection = () => {
                   name='type'
                   value={formik.values.type}
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                 >
                   <option value='hireMe' style={{ color: 'black' }}>
                     Freelance project proposal
@@ -113,6 +117,7 @@ const LandingSection = () => {
                   height={250}
                   value={formik.values.comment}
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                 />
                 <FormErrorMessage></FormErrorMessage>
               </FormControl>
@@ -122,7 +127,7 @@ const LandingSection = () => {
                 width='full'
                 disabled={isLoading}
               >
-                {isLoading ? isLoading : 'Submit'}
+                Submit
               </Button>
             </VStack>
           </form>
