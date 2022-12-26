@@ -80,7 +80,11 @@ const Header = () => {
           <nav>
             {socials.map((social, index) => {
               return (
-                <a href={social.url} key={index} className='inline-block mr-15'>
+                <a
+                  href={social.url}
+                  key={index}
+                  style={{ display: 'inline-block', marginRight: '15px' }}
+                >
                   <FontAwesomeIcon icon={social.icon} size='2x' />
                 </a>
               );
