@@ -77,10 +77,10 @@ const Header = () => {
           alignItems='center'
         >
           <nav>
-            {socials.map((item, index) => {
+            {socials.map((social, index) => {
               return (
-                <a href={item.url} key={index} className='inline-block mr-15'>
-                  <FontAwesomeIcon icon={item.icon} size='2x' />
+                <a href={social.url} key={index} className='inline-block mr-15'>
+                  <FontAwesomeIcon icon={social.icon} size='2x' />
                 </a>
               );
             })}
