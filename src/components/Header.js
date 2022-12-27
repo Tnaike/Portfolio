@@ -103,7 +103,7 @@ const Header = () => {
                 <a
                   href={social.url}
                   key={index}
-                  style={{ display: 'inline-block', marginRight: '15px' }}
+                  style={{ display: 'inline-block', marginRight: '20px' }}
                 >
                   <FontAwesomeIcon icon={social.icon} size='2x' />
                 </a>
