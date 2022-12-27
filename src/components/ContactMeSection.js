@@ -25,7 +25,7 @@ const ContactMeSection = () => {
     initialValues: {
       firstName: '',
       email: '',
-      type: 'hireMe',
+      type: '',
       comment: '',
     },
     onSubmit: (values) => {
@@ -35,7 +35,9 @@ const ContactMeSection = () => {
       firstName: Yup.string().required('Required'),
       email: Yup.string().required('Required').email('Invalid email'),
       type: Yup.string().required('Required'),
-      comment: Yup.string().required('Required'),
+      comment: Yup.string()
+        .required('Required')
+        .min(25, 'Must be at least 25 characters'),
     }),
   });
 
@@ -65,7 +67,9 @@ const ContactMeSection = () => {
         <Box p={6} rounded='md' w='100%'>
           <form onSubmit={handleSubmit}>
             <VStack spacing={4}>
-              <FormControl isInvalid={false}>
+              <FormControl
+                isInvalid={formik.touched.firstName && formik.errors.firstName}
+              >
                 <FormLabel htmlFor='firstName'>Name</FormLabel>
                 <Input
                   id='firstName'
@@ -75,9 +79,11 @@ const ContactMeSection = () => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
-                <FormErrorMessage></FormErrorMessage>
+                <FormErrorMessage>{formik.errors.firstName}</FormErrorMessage>
               </FormControl>
-              <FormControl isInvalid={false}>
+              <FormControl
+                isInvalid={formik.touched.email && formik.errors.email}
+              >
                 <FormLabel htmlFor='email'>Email Address</FormLabel>
                 <Input
                   id='email'
@@ -87,7 +93,7 @@ const ContactMeSection = () => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
-                <FormErrorMessage></FormErrorMessage>
+                <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
               </FormControl>
               <FormControl>
                 <FormLabel htmlFor='type'>Type of enquiry</FormLabel>
@@ -109,7 +115,9 @@ const ContactMeSection = () => {
                   </option>
                 </Select>
               </FormControl>
-              <FormControl isInvalid={false}>
+              <FormControl
+                isInvalid={formik.touched.comment && formik.errors.comment}
+              >
                 <FormLabel htmlFor='comment'>Your message</FormLabel>
                 <Textarea
                   id='comment'
@@ -119,7 +127,7 @@ const ContactMeSection = () => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
-                <FormErrorMessage></FormErrorMessage>
+                <FormErrorMessage>{formik.errors.comment}</FormErrorMessage>
               </FormControl>
               <Button
                 type='submit'
