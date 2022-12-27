@@ -9,7 +9,7 @@ const Card = ({ title, description, imageSrc }) => {
       <VStack bg='white' borderRadius='12'>
         <Image
           src={imageSrc}
-          alt='Project Image'
+          alt={title}
           borderRadius='12'
           boxSize='100%'
         ></Image>

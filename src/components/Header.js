@@ -46,9 +46,11 @@ const pageSection = [
 ];
 
 const Header = () => {
-  const [transform, setTransform] = useState(0);
-  const [position, setPosition] = useState('fixed');
-
+  const [pageScroll, setPageScroll] = useState({
+    scrollDirection: 'up',
+    scrollPosition: 0,
+  });
+  console.log(pageScroll.scrollPosition);
   const handleClick = (anchor) => () => {
     const id = `${anchor}-section`;
     const element = document.getElementById(id);
@@ -61,29 +63,30 @@ const Header = () => {
   };
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 70) {
-        setTransform('-200px');
-        setPosition('fixed');
-      } else {
-        setTransform('0');
-        setPosition('static');
-      }
-    };
-
     window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleScroll = () => {
+    const domPosition = document.body.getBoundingClientRect().top;
+
+    setPageScroll((prev) => {
+      return {
+        scrollDirection: domPosition > prev.scrollPosition ? 'up' : 'down',
+        scrollPosition: domPosition,
+      };
+    });
+  };
+  const translateY =
+    pageScroll.scrollDirection == 'up' ? 'translateY(0)' : 'translateY(-200px)';
 
   return (
     <Box
-      position={position}
+      position='fixed'
       top={0}
       left={0}
       right={0}
-      translateY={transform}
+      transform={translateY}
       transitionProperty='transform'
       transitionDuration='.3s'
       transitionTimingFunction='ease-in-out'
@@ -104,6 +107,7 @@ const Header = () => {
                   href={social.url}
                   key={index}
                   style={{ display: 'inline-block', marginRight: '20px' }}
+                  target='_blank'
                 >
                   <FontAwesomeIcon icon={social.icon} size='2x' />
                 </a>
