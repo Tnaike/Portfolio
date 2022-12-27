@@ -50,7 +50,7 @@ const Header = () => {
     scrollDirection: 'up',
     scrollPosition: 0,
   });
-  console.log(pageScroll.scrollPosition);
+
   const handleClick = (anchor) => () => {
     const id = `${anchor}-section`;
     const element = document.getElementById(id);

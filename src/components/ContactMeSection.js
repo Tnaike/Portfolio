@@ -29,29 +29,23 @@ const ContactMeSection = () => {
       comment: '',
     },
     onSubmit: (values) => {
-      submit('', values);
+      submit('https://example.com/contactme', values);
+
+      if (response) {
+        onOpen(response.type, response.message);
+        if (response.type === 'success') {
+          formik.resetForm();
+        }
+      }
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required('Required'),
       email: Yup.string().required('Required').email('Invalid email'),
-      type: Yup.string().required('Required'),
       comment: Yup.string()
         .required('Required')
         .min(25, 'Must be at least 25 characters'),
     }),
   });
-
-  useEffect(() => {
-    onOpen(response?.type, response?.message);
-    if (response?.type === 'success') {
-      formik.resetForm();
-    }
-  }, [response]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    submit();
-  };
 
   return (
     <FullScreenSection
@@ -65,7 +59,7 @@ const ContactMeSection = () => {
           Contact me
         </Heading>
         <Box p={6} rounded='md' w='100%'>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={formik.handleSubmit}>
             <VStack spacing={4}>
               <FormControl
                 isInvalid={formik.touched.firstName && formik.errors.firstName}
@@ -129,14 +123,18 @@ const ContactMeSection = () => {
                 />
                 <FormErrorMessage>{formik.errors.comment}</FormErrorMessage>
               </FormControl>
-              <Button
-                type='submit'
-                colorScheme='purple'
-                width='full'
-                disabled={isLoading}
-              >
-                Submit
-              </Button>
+              {!isLoading ? (
+                <Button type='submit' colorScheme='purple' width='full'>
+                  Submit
+                </Button>
+              ) : (
+                <Button
+                  isLoading
+                  type='submit'
+                  colorScheme='green'
+                  width='full'
+                ></Button>
+              )}
             </VStack>
           </form>
         </Box>
