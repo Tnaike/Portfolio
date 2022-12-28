@@ -25,27 +25,29 @@ const ContactMeSection = () => {
     initialValues: {
       firstName: '',
       email: '',
-      type: '',
+      type: 'hireMe',
       comment: '',
     },
     onSubmit: (values) => {
-      submit('https://example.com/contactme', values);
+      submit('', values);
+    },
+    validationSchema: Yup.object({
+      firstName: Yup.string().required('Required'),
+      email: Yup.string().email('Invalid email').required('Required'),
+      comment: Yup.string()
+        .min(25, 'Must be at least 25 characters')
+        .required('Required'),
+    }),
+  });
 
+  useEffect(() => {
       if (response) {
         onOpen(response.type, response.message);
         if (response.type === 'success') {
           formik.resetForm();
         }
       }
-    },
-    validationSchema: Yup.object({
-      firstName: Yup.string().required('Required'),
-      email: Yup.string().required('Required').email('Invalid email'),
-      comment: Yup.string()
-        .required('Required')
-        .min(25, 'Must be at least 25 characters'),
-    }),
-  });
+  }, [response]);
 
   return (
     <FullScreenSection
@@ -62,7 +64,7 @@ const ContactMeSection = () => {
           <form onSubmit={formik.handleSubmit}>
             <VStack spacing={4}>
               <FormControl
-                isInvalid={formik.touched.firstName && formik.errors.firstName}
+                isInvalid={!!formik.touched.firstName && formik.errors.firstName}
               >
                 <FormLabel htmlFor='firstName'>Name</FormLabel>
                 <Input
@@ -76,7 +78,7 @@ const ContactMeSection = () => {
                 <FormErrorMessage>{formik.errors.firstName}</FormErrorMessage>
               </FormControl>
               <FormControl
-                isInvalid={formik.touched.email && formik.errors.email}
+                isInvalid={!!formik.touched.email && formik.errors.email}
               >
                 <FormLabel htmlFor='email'>Email Address</FormLabel>
                 <Input
@@ -110,7 +112,7 @@ const ContactMeSection = () => {
                 </Select>
               </FormControl>
               <FormControl
-                isInvalid={formik.touched.comment && formik.errors.comment}
+                isInvalid={!!formik.touched.comment && formik.errors.comment}
               >
                 <FormLabel htmlFor='comment'>Your message</FormLabel>
                 <Textarea
@@ -131,7 +133,7 @@ const ContactMeSection = () => {
                 <Button
                   isLoading
                   type='submit'
-                  colorScheme='green'
+                  colorScheme='purple'
                   width='full'
                 ></Button>
               )}

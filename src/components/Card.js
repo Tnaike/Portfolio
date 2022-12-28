@@ -6,11 +6,11 @@ import React from 'react';
 const Card = ({ title, description, imageSrc }) => {
   return (
     <div>
-      <VStack bg='white' borderRadius='12'>
+      <VStack bg='white' borderRadius='xl'>
         <Image
           src={imageSrc}
           alt={title}
-          borderRadius='12'
+          borderRadius='xl'
           boxSize='100%'
         ></Image>
         <Box p={15} w='100%' color='black'>
