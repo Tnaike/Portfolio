@@ -64,7 +64,9 @@ const ContactMeSection = () => {
           <form onSubmit={formik.handleSubmit}>
             <VStack spacing={4}>
               <FormControl
-                isInvalid={!!formik.touched.firstName && formik.errors.firstName}
+                isInvalid={
+                  !!formik.touched.firstName && formik.errors.firstName
+                }
               >
                 <FormLabel htmlFor='firstName'>Name</FormLabel>
                 <Input
@@ -125,18 +127,14 @@ const ContactMeSection = () => {
                 />
                 <FormErrorMessage>{formik.errors.comment}</FormErrorMessage>
               </FormControl>
-              {!isLoading ? (
-                <Button type='submit' colorScheme='purple' width='full'>
-                  Submit
-                </Button>
-              ) : (
-                <Button
-                  isLoading
-                  type='submit'
-                  colorScheme='purple'
-                  width='full'
-                ></Button>
-              )}
+              <Button
+                type='submit'
+                colorScheme='purple'
+                width='full'
+                isLoading={isLoading}
+              >
+                Submit
+              </Button>
             </VStack>
           </form>
         </Box>
